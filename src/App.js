@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { Component } from 'react';
 import './App.css'
 class App extends Component {
@@ -32,7 +31,7 @@ class App extends Component {
 
     // Request made to the backend api 
     // Send formData object 
-    fetch('api/uploadfile', {method: "POST", body: formData});
+    fetch('api/uploadfile', { method: "POST", body: formData });
   };
 
   // File content to be displayed after 
