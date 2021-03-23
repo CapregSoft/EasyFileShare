@@ -1,11 +1,22 @@
 import React, { Component } from 'react';
 import './App.css'
+import AWS from 'aws-sdk'
+
+AWS.config.update({
+  accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
+  secretAccessKey: process.env.REACT_APP_AWS_SECRET
+})
+
 class App extends Component {
-
   state = {
-
     // Initially, no file is selected 
-    selectedFile: null
+    selectedFile: null,
+    fileUrl: "",
+    progress: "",
+    myBucket: new AWS.S3({
+      params: { Bucket: process.env.REACT_APP_S3_BUCKET },
+      region: process.env.REACT_APP_S3_BUCKET_REGION,
+    })
   };
 
   // On file select (from the pop up) 
@@ -16,26 +27,35 @@ class App extends Component {
 
   // On file upload (click the upload button) 
   onFileUpload = () => {
-    // Create an object of formData 
-    const formData = new FormData();
+    console.log(process.env.REACT_APP_S3_BUCKET_REGION);
 
-    // Update the formData object 
-    formData.append(
-      "myFile",
-      this.state.selectedFile,
-      this.state.selectedFile.name
-    );
+    const params = {
+      ACL: 'public-read',
+      Key: this.state.selectedFile.name,
+      ContentType: this.state.selectedFile.type,
+      Body: this.state.selectedFile,
+    }
+    this.state.myBucket.putObject(params)
+      .on('httpUploadProgress', (evt) => {
+        this.setState({
+          progress: Math.round((evt.loaded / evt.total) * 100),
+        })
+        console.log(this.state.progress);
+        if (this.state.progress === 100) {
+          this.setState({
+            fileUrl: `https://${process.env.REACT_APP_S3_BUCKET}.s3.${process.env.REACT_APP_S3_BUCKET_REGION}.amazonaws.com/${this.state.selectedFile.name}`,
+          })
+        }
+      })
+      .send((err) => {
+        if (err) {
+          console.log("🚀 ~ file: App.js ~ line 43 ~ App ~ .send ~ err", err)
+        }
+      })
 
-    // Details of the uploaded file 
-    console.log(this.state.selectedFile);
-
-    // Request made to the backend api 
-    // Send formData object 
-    fetch('api/uploadfile', { method: "POST", body: formData });
+    return `https://${process.env.REACT_APP_S3_BUCKET}.s3.${process.env.REACT_APP_S3_BUCKET_REGION}.amazonaws.com/${this.state.selectedFile.name}`
   };
 
-  // File content to be displayed after 
-  // file upload is complete 
   fileData = () => {
     if (this.state.selectedFile) {
 
@@ -44,10 +64,8 @@ class App extends Component {
           <h2>File Details:</h2>
           <p>File Name: {this.state.selectedFile.name}</p>
           <p>File Type: {this.state.selectedFile.type}</p>
-          {/* <p>
-            Last Modified:{" "}
-            {this.state.selectedFile.lastModifiedDate.toDateString()}
-          </p> */}
+          <p>Progress: {this.state.progress}</p>
+          <p> {this.state.fileUrl !== "" ? "File Url: " + this.state.fileUrl : ""}</p>
         </div>
       );
     } else {
@@ -70,7 +88,7 @@ class App extends Component {
           <input type="file" onChange={this.onFileChange} />
           <button onClick={this.onFileUpload}>
             Upload!
-                </button>
+          </button>
         </div>
         {this.fileData()}
       </div>
