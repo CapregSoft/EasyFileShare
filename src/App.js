@@ -63,9 +63,6 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>
-          GeeksforGeeks
-            </h1>
         <h3>
           File Upload using React!
             </h3>

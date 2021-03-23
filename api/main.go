@@ -1,21 +1,27 @@
 package main
 
 import (
+	"fmt"
 	"log"
 
+	"github.com/CapregSoft/EasyFileShare/api/config"
 	"github.com/CapregSoft/EasyFileShare/api/handler"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 )
 
 func main() {
+	config, err := config.FromFile("./env.json")
+	if err != nil {
+		log.Fatal(err)
+	}
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.RequestID())
 	api := e.Group("/api/v1", serverHeader)
 	api.GET("/ping", handler.Ping) // Returns all resources of this product
 
-	err := e.Start(":9090")
+	err = e.Start(fmt.Sprintf(":%v", config.Server.Port))
 	if err != nil {
 		log.Fatal(err)
 	}
