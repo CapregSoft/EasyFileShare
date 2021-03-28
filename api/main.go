@@ -19,7 +19,11 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.RequestID())
 	api := e.Group("/api/v1", serverHeader)
-	api.GET("/ping", handler.Ping) // Returns all resources of this product
+
+	api.GET("/ping", handler.Ping)
+	api.POST("/encode/", handler.Ping)
+	api.GET("/{link}", handler.Ping)
+	api.GET("/{link}/stats", handler.Ping)
 
 	err = e.Start(fmt.Sprintf(":%v", config.Server.Port))
 	if err != nil {
