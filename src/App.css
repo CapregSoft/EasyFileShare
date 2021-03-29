@@ -1,6 +1,6 @@
 .App {
-  text-align: center;
   flex:1;
+  text-align: center;
   justify-content: center;
   text-align: center;
 }
@@ -30,6 +30,24 @@
 .App-link {
   color: #61dafb;
 }
+.image-upload{
+  margin-left: 42%;
+  background-color: 'white';
+  width: 50;
+  padding: 50px;
+  opacity: 0.5;
+}
+.image-upload > input
+{
+    display: none;
+}
+
+.image-upload img
+{
+    width: 80px;
+    cursor: pointer;
+}
+.icon{ background: 'white'; width: 50;border-radius:50;padding:50}
 
 @keyframes App-logo-spin {
   from {

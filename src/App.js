@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
-import './App.css'
-import AWS from 'aws-sdk'
+import './App.css';
+import AWS from 'aws-sdk';
+import { IconContext } from 'react-icons'
+import { FaFolderOpen,BsCloudUpload } from "react-icons/fa";
+import { BsCloudUpload } from "react-icons/di";
+
+
 
 AWS.config.update({
   accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
@@ -81,17 +86,25 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h3>
-          File Upload using React!
-            </h3>
-        <div>
-          <input type="file" onChange={this.onFileChange} />
+        div
+        <h1>
+          Easy File Share
+            </h1>
+          <div class="image-upload">
+            <label for="file-input">
+                <div style={{ background: 'white',height:50, width: 50,borderRadius:50,padding:20,justifyContent:'center',alignItems:'center'}}>
+                  <FaFolderOpen size={40} color="blue"/>
+                </div>
+            </label>
+
+            <input id="file-input" type="file" onChange={this.onFileChange} />
+          </div>
           <button onClick={this.onFileUpload}>
-            Upload!
+            Upload
           </button>
-        </div>
         {this.fileData()}
       </div>
+
     );
   }
 }
