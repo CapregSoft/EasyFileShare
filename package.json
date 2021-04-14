@@ -19,7 +19,7 @@
     "react-modal": "^3.12.1",
     "react-scripts": "4.0.3",
     "react-sweet-progress": "^1.1.2",
-    "react-toast": "file:react-toast",
+    
     "web-vitals": "^1.0.1"
   },
   "scripts": {

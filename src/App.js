@@ -11,6 +11,9 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Progress } from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
 import Model_app from './modal'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 
 
@@ -114,20 +117,20 @@ class App extends Component {
             <p>File Type: {this.state.selectedFile.type}</p>
             <p>Progress: {this.state.progress}</p> */}
             <p className='file_url'>
-              {this.state.fileUrl !== "" ? " " + this.state.fileUrl : ""}
+              {this.state.fileUrl !== "" ? "" + this.state.fileUrl : ""}
             </p>
             <p>
 
             </p>
             <p>
-              <select id="dropdown" value=":">
+              {/* <select id="dropdown" value=":">
                 <option value="Copy Link">
-                  <CopyToClipboard text={this.state.fileUrl}
+                  <p text={this.state.fileUrl}
                     onCopy={() => this.setState({ copied: true })}>
                     <span>Copy to clipboard with button</span>
-                  </CopyToClipboard>
+                  </p>
                 </option>
-              </select>
+              </select> */}
               {/* <select id="dropdown">
                 <option value="Copy Link" onClick={this.Copy}>Copy Link</option>
                 <option value="Share Link">Share Link</option>
@@ -192,7 +195,13 @@ class App extends Component {
    
 
    
-
+   copyLink=()=>{
+    console.log(this.state.fileUrl )
+    toast("copied link !",{position:toast.POSITION.TOP_LEFT})
+           }
+  //  notify = () => {
+  //            toast("copied link !",{position:toast.POSITION.TOP_LEFT})
+  //   }
 
   render() {
     return (
@@ -217,7 +226,7 @@ class App extends Component {
           </h1>
         </div>
         {this.fileData()}
-        <Model_app  showModal={this.show_modal} open={ this.state.isOpen}  hideModel={this.hideModal}/>
+        <Model_app  showModal={this.show_modal} open={ this.state.isOpen}  hideModel={this.hideModal}  copylink={this.copyLink} />
       </div>
 
     );
