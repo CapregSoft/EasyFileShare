@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import './App.css';
+import './modal.css';
+
 import AWS from 'aws-sdk';
+import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaFolderOpen } from "react-icons/fa";
-import { FaCloudUploadAlt } from "react-icons/fa";
+
 import QRCode from 'qrcode.react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Progress } from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
+import Model_app from './modal'
 
 
 
@@ -16,6 +20,8 @@ AWS.config.update({
 })
 
 class App extends Component {
+  
+  
   state = {
     // Initially, no file is selected 
     copied: false,
@@ -23,13 +29,21 @@ class App extends Component {
     bgColour: '#fafafa',
     fileUrl: "",
     progress: "",
+    isOpen:false,
     myBucket: new AWS.S3({
       params: { Bucket: process.env.REACT_APP_S3_BUCKET },
       region: process.env.REACT_APP_S3_BUCKET_REGION,
     })
   };
 
-
+  show_modal= () => {
+  
+      this.setState({isOpen: true});
+  }
+  hideModal = () => {
+    this.setState({isOpen: false});
+  };
+  
   // On file select (from the pop up) 
   onFileChange = event => {
     // Update the state 
@@ -50,8 +64,9 @@ class App extends Component {
           })
           console.log(this.state.progress);
           if (this.state.progress === 100) {
+            const url =  `https://${process.env.REACT_APP_S3_BUCKET}.s3.${process.env.REACT_APP_S3_BUCKET_REGION}.amazonaws.com/${this.state.selectedFile.name}`
             this.setState({
-              fileUrl: `https://${process.env.REACT_APP_S3_BUCKET}.s3.${process.env.REACT_APP_S3_BUCKET_REGION}.amazonaws.com/${this.state.selectedFile.name}`,
+              fileUrl: url,
             })
           }
         })
@@ -93,30 +108,34 @@ class App extends Component {
             }}
           >
 
-            <p ><QRCode size={100} value={this.state.fileUrl} /></p>
+            <p ><QRCode includeMargin={true} size={100} value={this.state.fileUrl} /></p>
             {/* <h2>File Details:</h2>
             <p>File Name: {this.state.selectedFile.name}</p>
             <p>File Type: {this.state.selectedFile.type}</p>
             <p>Progress: {this.state.progress}</p> */}
-            <p>
-              {this.state.fileUrl !== "" ? "File Url: " + this.state.fileUrl : ""}
+            <p className='file_url'>
+              {this.state.fileUrl !== "" ? " " + this.state.fileUrl : ""}
             </p>
             <p>
 
             </p>
             <p>
-              {/* <select id="dropdown" value=":">
+              <select id="dropdown" value=":">
                 <option value="Copy Link">
                   <CopyToClipboard text={this.state.fileUrl}
                     onCopy={() => this.setState({ copied: true })}>
                     <span>Copy to clipboard with button</span>
                   </CopyToClipboard>
                 </option>
-              </select> */}
-              <select id="dropdown">
+              </select>
+              {/* <select id="dropdown">
                 <option value="Copy Link" onClick={this.Copy}>Copy Link</option>
                 <option value="Share Link">Share Link</option>
-              </select>
+              </select> */}
+              <button className='btn_model' onClick={this.show_modal}><BsThreeDotsVertical size={30} color="white"  onClick={() => this.show_modal()} />  </button>
+                {
+               }
+                 
             </p>
           </div>
         );
@@ -155,7 +174,7 @@ class App extends Component {
             onMouseLeave={() => this.setState({ bgColour: '#fafafa' })}>
             <label for="file-input">
               <div className="upload">
-                <FaFolderOpen size={60} color="blue" />
+                <FaFolderOpen color="blue" />
               </div>
             </label>
 
@@ -169,6 +188,11 @@ class App extends Component {
       );
     }
   };
+    
+   
+
+   
+
 
   render() {
     return (
@@ -183,12 +207,17 @@ class App extends Component {
           fontFamily: 'cursive',
           fontSize: 30
         }}>
-          <FaCloudUploadAlt size={70} color="white" />
+          {/* {<FaCloudUploadAlt size={70} color="white" /> } */}
+        <img className='image_logo' src="file_logo.png" />
+          
+          
+          
           <h1>
-            <i>Easy File Share</i>
+            {/* <i>Easy File Share</i> */}
           </h1>
         </div>
         {this.fileData()}
+        <Model_app  showModal={this.show_modal} open={ this.state.isOpen}  hideModel={this.hideModal}/>
       </div>
 
     );
