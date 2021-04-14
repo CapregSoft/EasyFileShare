@@ -1,5 +1,5 @@
 .App {
-  flex:1;
+  flex: 1;
   text-align: center;
   justify-content: center;
   text-align: center;
@@ -20,54 +20,48 @@
   color: #61dafb;
 }
 
-
 /*---------------- upload -------------------*/
-.upload{
+.upload {
   flex: 1;
   justify-content: center;
-   align-items: center;
-   margin-top: 30px;
-   height: 100px;
-   width: 130px;
-   
-   opacity: 0.5;
-  }
-.image-upload{
-   display: flex;
-   justify-content: center;
-   align-items: center;
-    margin-left: 46%;
-    margin-bottom: 20px;
-    width: 130px;
-   border-radius: 100px;
-   opacity: 0.5;
-  
-    
-  }
-.image-upload > input
-  {
-      display:none;
-  }
-  
-.image-upload img
-  {
-      width: 80px;
-      cursor: pointer;
-  }
+  align-items: center;
+  margin-top: 30px;
+  height: 100px;
+  width: 130px;
+
+  opacity: 0.5;
+}
+.image-upload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 46%;
+  margin-bottom: 20px;
+  width: 130px;
+  border-radius: 100px;
+  opacity: 0.5;
+}
+.image-upload > input {
+  display: none;
+}
+
+.image-upload img {
+  width: 80px;
+  cursor: pointer;
+}
 /*---------------- header -------------------*/
 .topmenu li {
-   display:inline-block;
-   font-size: 1.5em;
-   text-align: right;
+  display: inline-block;
+  font-size: 1.5em;
+  text-align: right;
 }
-.topmenu.omega{
-   float:right;
+.topmenu.omega {
+  float: right;
 }
-ul{
-   margin: 0;
+ul {
+  margin: 0;
 }
-li>a
-{
+li > a {
   font-size: 20px;
 }
 /* #dropdown{
@@ -78,23 +72,29 @@ li>a
   margin-left: 10px;
 border-color: white;
 } */
-.file_url{
+
+/* url  */
+.file_url {
+  text-align: center;
+  min-height: fit-content;
   border-radius: 15px;
   border-color: white;
-  background-color: rgb(6, 171, 236);
+  background-color: rgb(108, 207, 247);
   height: 40px;
   width: 70%;
-  
-   
-  }
-  .image_logo{
-    width: 100px;
-    height: 100px;
-    margin-bottom: 20px;
-    margin-left: 5px;
 }
-
-
+/* logo */
+.image_logo {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 20px;
+  margin-left: 5px;
+}
+/* Qrcode  */
+.qrcode {
+  border-radius: 60px;
+   
+}
 
 @keyframes App-logo-spin {
   from {
