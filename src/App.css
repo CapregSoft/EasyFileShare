@@ -64,36 +64,35 @@ ul {
 li > a {
   font-size: 20px;
 }
-/* #dropdown{
-  width: 100px;
-  height: 40px;
-  border-radius: 5px;
-  background-color: rgb(6, 171, 236);
-  margin-left: 10px;
-border-color: white;
-} */
 
 /* url  */
 .file_url {
-  text-align: center;
-  min-height: fit-content;
+  margin-top: 10px;
   border-radius: 15px;
   border-color: white;
-  background-color: rgb(108, 207, 247);
+  background-color: #37b5d6;
   height: 40px;
   width: 70%;
 }
+
 /* logo */
 .image_logo {
   width: 100px;
   height: 100px;
-  margin-bottom: 20px;
-  margin-left: 5px;
+  margin-bottom: 30px;
+  margin-left: 20px;
 }
+
 /* Qrcode  */
 .qrcode {
-  border-radius: 60px;
-   
+  width: 60px;
+  height: 60px;
+  margin-left:10px;
+}
+
+.qrcode canvas {
+  border-radius: 5%;
+  width: inherit;
 }
 
 @keyframes App-logo-spin {

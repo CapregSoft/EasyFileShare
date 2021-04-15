@@ -1,19 +1,16 @@
 import React, { Component } from "react";
-import "./App.css";
-import "./modal.css";
-
 import AWS from "aws-sdk";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaFolderOpen } from "react-icons/fa";
-
 import QRCode from "qrcode.react";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import { Progress } from "react-sweet-progress";
+
+import { ToastContainer, toast } from "react-toastify";
 import "react-sweet-progress/lib/style.css";
-import Model_app from "./modal";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Copy from "./Copylink/copylink";
+import "./App.css";
+import "./modal.css";
+import ModelApp from "./modal";
 
 AWS.config.update({
   accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
@@ -30,7 +27,7 @@ class App extends Component {
     progress: "",
     isOpen: false,
     url: "hello",
-    toast:'',
+    toast: "",
     isCopied: false,
     myBucket: new AWS.S3({
       params: { Bucket: process.env.REACT_APP_S3_BUCKET },
@@ -38,7 +35,7 @@ class App extends Component {
     }),
   };
   show_modal = () => {
-    this.setState({ isOpen: true });
+    this.setState({ isOpen: !this.state.isOpen });
   };
   hideModal = () => {
     this.setState({ isOpen: false });
@@ -105,42 +102,26 @@ class App extends Component {
               justifyContent: "center",
             }}
           >
-            <div className="qrcode">
-              <QRCode  
+             <div className="qrcode" >
+              <QRCode
                 includeMargin={true}
-                size={60}
+                size={70}
                 value={this.state.fileUrl}
               />
-            </div>
-            {/* <h2>File Details:</h2>
-            <p>File Name: {this.state.selectedFile.name}</p>
-            <p>File Type: {this.state.selectedFile.type}</p>
-            <p>Progress: {this.state.progress}</p> */}
-            <p className="file_url">
-              <i> {this.state.fileUrl !== "" ? "" + this.state.fileUrl : ""}</i>
+            </div> 
+            
+            <p className="file_url"> 
+           <i> {this.state.fileUrl !== "" ? "" + this.state.fileUrl : ""}</i>
             </p>
             <p></p>
             <p>
-              {/* <select id="dropdown" value=":">
-                <option value="Copy Link">
-                  < copyToClipboard text={this.state.fileUrl}
-                    onCopy={() => this.setState({ copied: true })}>
-                    <span>Copy to clipboard with button</span>
-                  </ copyToClipboard>
-                </option>
-              </select> */}
-              {/* <select id="dropdown">
-                <option value="Copy Link" onClick={this.Copy}>Copy Link</option>
-                <option value="Share Link">Share Link</option>
-              </select> */}
-              <button className="btn_model" onClick={this.show_modal}>
-                <BsThreeDotsVertical
-                  size={30}
-                  color="white"
-                  onClick={() => this.show_modal()}
-                />{" "}
-              </button>
-              {}
+              {<BsThreeDotsVertical
+                size={30}
+                color="white"
+                onClick={this.show_modal}
+              /> 
+              
+              }
             </p>
           </div>
         );
@@ -180,7 +161,7 @@ class App extends Component {
           >
             <label for="file-input">
               <div className="upload">
-                <FaFolderOpen color="blue" />
+                <FaFolderOpen color="blue"  size={50} style={{marginLeft:'5px'}}/>
               </div>
             </label>
 
@@ -193,25 +174,10 @@ class App extends Component {
       );
     }
   };
-
-  onCopyText = () => {
+ onCopyText = () => {
     this.setState({ url: this.fileUrl });
-    console.log("text copied");
-    // this.setIsCopied(true);
-    // setTimeout(() => {
-    //   this.setIsCopied(false);
-    // }, 1000);
+    toast.success("Link is copied");
   };
-
-  // copyLink = () => {
-  // console.log(this.state.fileUrl )
-  // toast("copied link !",{position:toast.POSITION.TOP_LEFT})
-  // };
-
-     
-   notify = () => {
-            this.setState({toast:toast("copied link !",{position:toast.POSITION.TOP_LEFT})}) 
-    }
 
   render() {
     return (
@@ -228,21 +194,29 @@ class App extends Component {
             fontSize: 30,
           }}
         >
-          {/* {<FaCloudUploadAlt size={70} color="white" /> } */}
-          <img className="image_logo" src="file_logo.png" />
-
-          <h1>{/* <i>Easy File Share</i> */}</h1>
+          
+           <img src="file_logo.png" className="image_logo"/>
         </div>
         {this.fileData()}
-        {/* <Copy /> */}
-        <Model_app
-          showModal={this.show_modal}
+
+        <ModelApp
           open={this.state.isOpen}
           hideModel={this.hideModal}
           copylink={this.onCopyText}
           url={this.state.fileUrl}
-          toast={this.toast}
         />
+        <ToastContainer
+          position="bottom-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+       
       </div>
     );
   }
